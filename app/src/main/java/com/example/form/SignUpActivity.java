@@ -23,6 +23,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Button submitButton;
     EditText name;
     EditText email;
+    EditText job;
+    EditText description;
     Button datePicker;
     TextView showDate;
 
@@ -39,6 +41,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         submitButton.setOnClickListener(this);
         name=findViewById(R.id.name);
         email=findViewById(R.id.email);
+        job=findViewById(R.id.job_input);
+        description=findViewById(R.id.input_description);
 
         Log.i(TAG, "onCreate()");
     }
@@ -128,10 +132,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             String stringName = name.getText().toString();
             String stringEmail = email.getText().toString();
             String stringDate = showDate.getText().toString();
+            String stringJob = job.getText().toString();
+            String stringDescription = description.getText().toString();
             //add values to bundle
             bundle.putString("name",stringName);
             bundle.putString("email",stringEmail);
             bundle.putString("date",stringDate);
+            bundle.putString("job",stringJob);
+            bundle.putString("description",stringDescription);
             //start activity
             confirmActivity.putExtras(bundle);
             startActivity(confirmActivity);

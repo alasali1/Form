@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -105,6 +107,55 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Log.i(TAG, "onDestroy");
     }
 
+    //turn date string into date object
+    public Calendar convertDate(String stringDate) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        Calendar date = Calendar.getInstance();
+        date.setTime(sdf.parse(stringDate));
+        return date;
+    }
+
+    public boolean checkAge(Calendar date){
+        Calendar today = Calendar.getInstance();
+        int checkYear = today.get(Calendar.YEAR) -18;
+        int yob = date.get(Calendar.YEAR);
+        int mob = date.get(Calendar.MONTH);
+        int dob = date.get(Calendar.DAY_OF_MONTH);
+        if(date.after(today)){
+            return false;
+        }
+        if(yob > checkYear){
+            return false;
+        } else if(mob > today.get(Calendar.MONTH)){
+            return false;
+        } else if(dob > today.get(Calendar.DAY_OF_MONTH)){
+            return false;
+        } else{
+            return true;
+        }
+
+    }
+
+    public int getAge(String date){
+        //make age variable
+        int age = 0;
+        //Get age
+        try {
+            Calendar birth = convertDate(date);
+            Calendar today = Calendar.getInstance();
+            if(today.get(Calendar.DAY_OF_YEAR) < birth.get(Calendar.DAY_OF_YEAR)){
+                age= today.get(Calendar.YEAR) - birth.get(Calendar.YEAR) - 1;
+            }
+            else{
+                age= today.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return age;
+    }
+
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btn_date){
@@ -134,15 +185,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             String stringDate = showDate.getText().toString();
             String stringJob = job.getText().toString();
             String stringDescription = description.getText().toString();
-            //add values to bundle
-            bundle.putString("name",stringName);
-            bundle.putString("email",stringEmail);
-            bundle.putString("date",stringDate);
-            bundle.putString("job",stringJob);
-            bundle.putString("description",stringDescription);
-            //start activity
-            confirmActivity.putExtras(bundle);
-            startActivity(confirmActivity);
+
+            //Add action if age is <18
+            String testDate = stringDate;
+            if(getAge(testDate) < 18){
+                Intent profilePage = new Intent(SignUpActivity.this, ProfilePage.class);
+                startActivity(profilePage);
+            } else {
+
+                //add values to bundle
+                bundle.putString("name", stringName);
+                bundle.putString("email", stringEmail);
+                bundle.putString("date", stringDate);
+                bundle.putString("job", stringJob);
+                bundle.putString("description", stringDescription);
+                //start activity
+                confirmActivity.putExtras(bundle);
+                startActivity(confirmActivity);
+            }
         }
     }
 }

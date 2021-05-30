@@ -74,7 +74,10 @@ public class ConfirmActivity extends AppCompatActivity {
             textView.setText(" "+ stringName +" Thank you for signing up");
             }
             else{
+                imageView.equals(null);
                 textView.append(" Please try again when you're older");
+                jobView.equals("");
+                ageView.equals("");
             }
         } catch (ParseException e) {
             e.printStackTrace();

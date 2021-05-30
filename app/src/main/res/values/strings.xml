@@ -17,5 +17,6 @@
     <string name="age">Age:</string>
     <string name="description">Description: </string>
     <string name="description_input">Describe yourself</string>
-    <string name="job_input">What is your job?</string>/>
+    <string name="job_input">What is your job?</string>
+    <string name="sorry">sorry</string>/>
 </resources>

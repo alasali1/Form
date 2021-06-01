@@ -56,7 +56,7 @@ public class SignUpActivityTest {
     public void checkEmptyName() {
         onView(withId(R.id.name)).perform(typeText(""));
         onView(withId(R.id.btn_date)).perform((click()));
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1900, 01, 01));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1950, 01, 01));
         onView(withText("OK")).perform(click());
         onView(withId(R.id.goToSubmitActivity)).perform((click()));
 

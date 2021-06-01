@@ -43,6 +43,7 @@ public class SignUpActivityTest {
 
     @Test
     public void checkEmail() {
+        onView(withId(R.id.name)).perform(typeText("Bill"));
         onView(withId(R.id.email)).perform(typeText("dfdsfdsfgf"));
         onView(withId(R.id.btn_date)).perform((click()));
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1935, 01, 01));
@@ -55,11 +56,22 @@ public class SignUpActivityTest {
     @Test
     public void checkEmptyName() {
         onView(withId(R.id.name)).perform(typeText(""));
+        onView(withId(R.id.email)).perform(typeText("abcmoney@gmail.com"));
         onView(withId(R.id.btn_date)).perform((click()));
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1950, 01, 01));
         onView(withText("OK")).perform(click());
         onView(withId(R.id.goToSubmitActivity)).perform((click()));
         onView((allOf(withId(R.id.name), hasErrorText("Name can't be empty"))));
 
+    }
+
+    @Test
+    public void checkAge(){
+        onView(withId(R.id.name)).perform(typeText("Bill"));
+        onView(withId(R.id.email)).perform(typeText("abcmoney@gmail.com"));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 01, 01));
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.goToSubmitActivity)).perform((click()));
+        onView((allOf(withId(R.id.name), hasErrorText("Too young"))));
     }
 }

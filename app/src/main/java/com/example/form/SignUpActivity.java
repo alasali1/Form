@@ -158,7 +158,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             showDate.setError("Too young");
             return false;
         } else if(mob > today.get(Calendar.MONTH)){
-            showDate.setError("too young");
+            showDate.setError("Too young");
             return false;
         } else if(dob > today.get(Calendar.DAY_OF_MONTH)){
             showDate.setError("Too young");

@@ -1,6 +1,9 @@
 package com.example.form;
 
 
+import android.widget.DatePicker;
+import androidx.test.espresso.contrib.PickerActions;
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Test;
@@ -10,9 +13,12 @@ import org.junit.runners.JUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
@@ -35,5 +41,14 @@ public class SignUpActivityTest {
         onView(withId(R.id.name)).check(matches(withText("Bill")));
     }
 
+    @Test
+    public void checkEmail() {
+        onView(withId(R.id.email)).perform(typeText("dfdsfdsfgf"));
+        onView(withId(R.id.btn_date)).perform((click()));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1900, 01, 01));
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.goToSubmitActivity)).perform((click()));
+        onView((allOf(withId(R.id.email), hasErrorText("Email invalid"))));
 
+    }
 }

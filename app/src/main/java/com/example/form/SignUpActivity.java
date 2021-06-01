@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -116,6 +117,34 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return date;
     }
 
+    private boolean validateEmail(){
+        String emailInput = email.getText().toString().trim();
+
+        if(emailInput.isEmpty()){
+            email.setError("Email can't be empty");
+            return false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
+            email.setError("Email invalid");
+            return false;
+        }else{
+            email.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateName(){
+        String nameInput = name.getText().toString().trim();
+
+        if(nameInput.isEmpty()){
+            name.setError("Name can't be empty");
+            return false;
+        }
+        else {
+            name.setError(null);
+            return true;
+        }
+    }
+
     public boolean checkAge(Calendar date){
         Calendar today = Calendar.getInstance();
         int checkYear = today.get(Calendar.YEAR) -18;
@@ -126,12 +155,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         }
         if(yob > checkYear){
+            showDate.setError("Too young");
             return false;
         } else if(mob > today.get(Calendar.MONTH)){
+            showDate.setError("too young");
             return false;
         } else if(dob > today.get(Calendar.DAY_OF_MONTH)){
+            showDate.setError("Too young");
             return false;
-        } else{
+        } else if(showDate.toString().isEmpty()) {
+            showDate.setError("Date cannot be empty");
+            return false;
+        }else
+        {   showDate.setError(null);
             return true;
         }
 
@@ -188,20 +224,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             //Add action if age is <18
             String testDate = stringDate;
-            if(getAge(testDate) < 18){
-                Intent profilePage = new Intent(SignUpActivity.this, ProfilePage.class);
-                startActivity(profilePage);
-            } else {
+            try {
+                if(!checkAge(convertDate(stringDate)) | !validateEmail() | !validateName()){
+                    return;
+                } else {
 
-                //add values to bundle
-                bundle.putString("name", stringName);
-                bundle.putString("email", stringEmail);
-                bundle.putString("date", stringDate);
-                bundle.putString("job", stringJob);
-                bundle.putString("description", stringDescription);
-                //start activity
-                confirmActivity.putExtras(bundle);
-                startActivity(confirmActivity);
+                    //check if email is valid
+
+                    //add values to bundle
+                    bundle.putString("name", stringName);
+                    bundle.putString("email", stringEmail);
+                    bundle.putString("date", stringDate);
+                    bundle.putString("job", stringJob);
+                    bundle.putString("description", stringDescription);
+                    //start activity
+                    confirmActivity.putExtras(bundle);
+                    startActivity(confirmActivity);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
     }

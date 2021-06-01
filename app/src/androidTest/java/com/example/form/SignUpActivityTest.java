@@ -59,7 +59,6 @@ public class SignUpActivityTest {
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1950, 01, 01));
         onView(withText("OK")).perform(click());
         onView(withId(R.id.goToSubmitActivity)).perform((click()));
-
         onView((allOf(withId(R.id.name), hasErrorText("Name can't be empty"))));
 
     }

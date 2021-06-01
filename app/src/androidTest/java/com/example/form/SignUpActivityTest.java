@@ -45,10 +45,22 @@ public class SignUpActivityTest {
     public void checkEmail() {
         onView(withId(R.id.email)).perform(typeText("dfdsfdsfgf"));
         onView(withId(R.id.btn_date)).perform((click()));
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1900, 01, 01));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1935, 01, 01));
         onView(withText("OK")).perform(click());
         onView(withId(R.id.goToSubmitActivity)).perform((click()));
         onView((allOf(withId(R.id.email), hasErrorText("Email invalid"))));
+
+    }
+
+    @Test
+    public void checkEmptyName() {
+        onView(withId(R.id.name)).perform(typeText(""));
+        onView(withId(R.id.btn_date)).perform((click()));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(1900, 01, 01));
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.goToSubmitActivity)).perform((click()));
+
+        onView((allOf(withId(R.id.name), hasErrorText("Name can't be empty"))));
 
     }
 }

@@ -212,7 +212,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if (v.getId() == R.id.goToSubmitActivity){
-            Intent confirmActivity = new Intent(SignUpActivity.this, ConfirmActivity.class);
+            Intent SecondActivity = new Intent(SignUpActivity.this, SecondActivity.class);
             //create new bundle
             Bundle bundle = new Bundle();
             //get String from editText
@@ -238,8 +238,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     bundle.putString("job", stringJob);
                     bundle.putString("description", stringDescription);
                     //start activity
-                    confirmActivity.putExtras(bundle);
-                    startActivity(confirmActivity);
+                    SecondActivity.putExtras(bundle);
+                    startActivity(SecondActivity);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

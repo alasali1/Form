@@ -1,32 +1,41 @@
 package com.example.form;
 
+import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.form.ui.main.SectionsPagerAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-public class ConfirmActivity extends AppCompatActivity {
-    TextView textView, jobView, ageView, descriptionView;
-    ImageView imageView;
+public class SecondActivity extends AppCompatActivity {
 
-    private static final String TAG = ConfirmActivity.class.getSimpleName();
-
+    private static final String TAG = SecondActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm);
+        setContentView(R.layout.activity_second);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+        FloatingActionButton fab = findViewById(R.id.fab);
+
         //fragment
         ProfileFragment profileFragment = new ProfileFragment();
         FragmentManager manager = getSupportFragmentManager();
@@ -44,11 +53,14 @@ public class ConfirmActivity extends AppCompatActivity {
         //set arguments
         profileFragment.setArguments(bundle);
 
-
-
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
-
     //turn date string into date object
     public static Calendar convertDate(String stringDate) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
